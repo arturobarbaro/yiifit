@@ -2,17 +2,13 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+class Entrenamiento extends \yii\base\BaseObject
 {
     public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-    public $genero; //hombre o mujer
-    public $peso;    //kg
-    public $altura; //cm
-    public $fechaNacimiento;
+    public $nombre;
+    public $duracion;  //minutos
+    public $comiento;  //fecha y hora
+    public $recorrido; //opcional;
 
     private static $users = [
         '100' => [
