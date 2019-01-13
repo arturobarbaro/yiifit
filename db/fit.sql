@@ -2,6 +2,47 @@
 -- Archivo de base de datos --
 ------------------------------
 
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+CREATE TABLE usuarios
+(
+    id         BIGSERIAL    PRIMARY KEY
+    , login      VARCHAR(50)  NOT NULL UNIQUE
+    CONSTRAINT ck_login_sin_espacios
+    CHECK (login NOT LIKE '% %')
+    , email      VARCHAR(255) NOT NULL
+    , password   VARCHAR(255) NOT NULL
+    , nombre     VARCHAR(255) NOT NULL
+    , apellido   VARCHAR(255) NOT NULL
+    , biografia  VARCHAR(255)
+    , genero     VARCHAR(60)  NOT NULL
+    , peso       SMALLINT     DEFAULT 70
+    CONSTRAINT ck_entrenamientos_peso_valido
+    CHECK (coalesce(peso, 0) >= 40 AND coalesce(peso, 0) <= 150)
+    , altura     SMALLINT     DEFAULT 170
+    CONSTRAINT ck_entrenamientos_altura_valida
+    CHECK (coalesce(altura, 0) >= 140 AND coalesce(altura, 0) <= 220)
+    , fechaNac   DATE
+    , url_avatar VARCHAR(255)
+    , auth_key   VARCHAR(255)
+    , created_at TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP
+    , updated_at TIMESTAMP(0)
+);
+
+DROP TABLE IF EXISTS seguidores CASCADE;
+
+CREATE TABLE seguidores
+(
+    id             BIGSERIAL    PRIMARY KEY
+    , seguidor_id    BIGINT       NOT NULL
+                                REFERENCES usuarios (id)
+                                ON DELETE NO ACTION
+                                ON UPDATE CASCADE
+    , seguido_id     BIGINT       NOT NULL
+                                REFERENCES usuarios (id)
+                                ON DELETE NO ACTION
+                                ON UPDATE CASCADE
+);
 DROP TABLE IF EXISTS actividades CASCADE;
 
 CREATE TABLE actividades
@@ -32,48 +73,6 @@ CREATE TABLE entrenamientos
 
 );
 
-DROP TABLE IF EXISTS usuarios CASCADE;
-
-CREATE TABLE usuarios
-(
-    id         BIGSERIAL    PRIMARY KEY
-  , login      VARCHAR(50)  NOT NULL UNIQUE
-                            CONSTRAINT ck_login_sin_espacios
-                            CHECK (login NOT LIKE '% %')
-  , email      VARCHAR(255) NOT NULL
-  , password   VARCHAR(255) NOT NULL
-  , nombre     VARCHAR(255) NOT NULL
-  , apellido   VARCHAR(255) NOT NULL
-  , biografia  VARCHAR(255)
-  , genero     VARCHAR(60)  NOT NULL
-  , peso       SMALLINT     DEFAULT 70
-                            CONSTRAINT ck_entrenamientos_peso_valido
-                            CHECK (coalesce(duracion, 0) >= 40 AND coalesce(duracion, 0) <= 150)
-  , altura     SMALLINT     DEFAULT 170
-                            CONSTRAINT ck_entrenamientos_altura_valida
-                            CHECK (coalesce(duracion, 0) >= 140 AND coalesce(duracion, 0) <= 220)
-  , fechaNac   DATE
-  , url_avatar VARCHAR(255)
-  , auth_key   VARCHAR(255)
-  , created_at TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP
-  , updated_at TIMESTAMP(0)
-
-);
-
-DROP TABLE IF EXISTS seguidores CASCADE;
-
-CREATE TABLE seguidores
-(
-    id             BIGSERIAL    PRIMARY KEY
-  , seguidor_id    BIGINT       NOT NULL
-                                REFERENCES usuarios (id)
-                                ON DELETE NO ACTION
-                                ON UPDATE CASCADE
-  , seguido_id     BIGINT       NOT NULL
-                                REFERENCES usuarios (id)
-                                ON DELETE NO ACTION
-                                ON UPDATE CASCADE
-);
 
 DROP TABLE IF EXISTS eventos CASCADE;
 
