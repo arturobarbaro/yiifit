@@ -12,7 +12,7 @@ CREATE TABLE usuarios
     CHECK (login NOT LIKE '% %')
     , email      VARCHAR(255) NOT NULL
     , password   VARCHAR(255) NOT NULL
-    , nombre     VARCHAR(255) NOT NULL
+    /* , nombre     VARCHAR(255) NOT NULL
     , apellido   VARCHAR(255) NOT NULL
     , biografia  VARCHAR(255)
     , genero     VARCHAR(60)  NOT NULL
@@ -26,7 +26,7 @@ CREATE TABLE usuarios
     , url_avatar VARCHAR(255)
     , auth_key   VARCHAR(255)
     , created_at TIMESTAMP(0) NOT NULL DEFAULT LOCALTIMESTAMP
-    , updated_at TIMESTAMP(0)
+    , updated_at TIMESTAMP(0) */
 );
 
 DROP TABLE IF EXISTS seguidores CASCADE;
@@ -76,7 +76,7 @@ CREATE TABLE entrenamientos
 
 DROP TABLE IF EXISTS eventos CASCADE;
 
-CREATE TABLE eventos
+/* CREATE TABLE eventos
 (
     id                  BIGSERIAL    PRIMARY KEY
   , entrenamiento_id    BIGINT       NOT NULL
@@ -87,15 +87,19 @@ CREATE TABLE eventos
                                      REFERENCES usuarios (id)
                                      ON DELETE NO ACTION
                                      ON UPDATE CASCADE
-);
+); */
 
 --GRUPOS PARA ACTIVIDADES GRUPALES???????
 
 
 -- INSERT
-INSERT INTO usuarios (login, email, password, nombre, apellido, biografia, genero, peso, altura, fechaNac)
+/* INSERT INTO usuarios (login, email, password, nombre, apellido, biografia, genero, peso, altura, fechaNac)
 VALUES ('pepe', 'pepe@hotmail.com', crypt('pepe', gen_salt('bf', 10)), 'Pepe', 'Garcia', 'Soy pepe', 'hombre', 70,180,null)
-     , ('admin', 'aaa', crypt('admin', gen_salt('bf', 10)),'Admin', 'admin', 'Soy admin', 'hombre', 70,180,null);
+     , ('admin', 'aaa', crypt('admin', gen_salt('bf', 10)),'Admin', 'admin', 'Soy admin', 'hombre', 70,180,null); */
+
+INSERT INTO usuarios (login, email, password)
+VALUES ('pepe', 'pepe@hotmail.com', crypt('pepe', gen_salt('bf', 10)))
+     , ('admin', 'aaa', crypt('admin', gen_salt('bf', 10)));
 
 INSERT INTO actividades (actividad, gastoCalorico)
 VALUES ('Caminar', 006)
@@ -107,4 +111,6 @@ VALUES ('Caminar', 006)
 
 INSERT INTO entrenamientos (usuario_id, actividad_id, anotacion, fecha, duracion)
 VALUES (1,2,'',DEFAULT,15)
-     , (1,3,'...',DEFAULT,30);
+     , (1,3,'...',DEFAULT,30)
+     , (1,1,'...',DEFAULT,30)
+     , (2,4,'...',DEFAULT,90);
